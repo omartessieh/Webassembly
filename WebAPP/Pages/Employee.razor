@@ -1,0 +1,45 @@
+﻿@page "/employee"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin, User")]
+
+<MudTable Items="FilteredEmployees" Hover="true" Style="margin-bottom: 50px;">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Employees</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
+        <MudSpacer />
+        @if (user?.IsInRole("Admin") == true)
+        {
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="float: right;" @onclick="AddEmployee">Add Employee</MudButton>
+        }
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<EmployeeDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh>Company</MudTh>
+        <MudTh>Position</MudTh>
+        <MudTh>BirthDate</MudTh>
+        @if (user?.IsInRole("Admin") == true)
+        {
+            <MudTh>Edit Employee</MudTh>
+            <MudTh>Delete Employee</MudTh>
+        }
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Company">@context.Company</MudTd>
+        <MudTd DataLabel="Position">@context.Position</MudTd>
+        <MudTd DataLabel="BirthDate">@context.BirthDate?.ToString("dd-MM-yyyy")</MudTd>
+        @if (user?.IsInRole("Admin") == true)
+        {
+            <MudTd Style="padding: 0;">
+                <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="@(() => EditEmployee(@context.Id))">Edit</MudButton>
+            </MudTd>
+            <MudTd Style="padding: 0;">
+                <MudButton Color="Color.Error" Variant="Variant.Filled" StartIcon="@Icons.Material.Filled.Delete" @onclick="@(() => DeleteEmployee(@context.Id))">Delete</MudButton>
+            </MudTd>
+        }
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

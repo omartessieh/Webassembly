@@ -1,0 +1,37 @@
+﻿@page "/addemployee"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Add Employee</h3>
+
+<MudGrid>
+    <MudItem xs="12" Class="my-4">
+        <EditForm Model="@employeeDto" OnValidSubmit="EmployeeSubmit">
+            <DataAnnotationsValidator />
+            <MudCardContent>
+                <div class="my-2">
+                    <MudTextField type="text" name="name" Label="Name" @bind-Value="employeeDto.Name" Immediate="true" />
+                    <ValidationMessage For="@(() => employeeDto.Name)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="company" Label="Company" @bind-Value="employeeDto.Company" Immediate="true" />
+                    <ValidationMessage For="@(() => employeeDto.Company)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="position" Label="Position" ShowToolbar="false" @bind-Value="employeeDto.Position" Immediate="true" />
+                    <ValidationMessage For="@(() => employeeDto.Position)" />
+                </div>
+                <div class="my-2">
+                    <MudDatePicker Label="Date of Birth" @bind-Date="employeeDto.BirthDate" DateFormat="yyyy-MM-dd" ShowToolbar="false"></MudDatePicker>
+                    <ValidationMessage For="@(() => employeeDto.BirthDate)" />
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Style="margin-right: 10px;">Add</MudButton>
+                <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+            </MudCardActions>
+        </EditForm>
+    </MudItem>
+</MudGrid>

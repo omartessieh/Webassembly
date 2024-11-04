@@ -1,0 +1,28 @@
+﻿@page "/editrole/{Id:int}"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>EditRole</h3>
+
+<MudGrid>
+    <MudItem xs="12" Class="my-4">
+        <EditForm Model="@roleDto" OnValidSubmit="RoleSubmit">
+            <DataAnnotationsValidator />
+            <MudCardContent>
+                <div class="my-2">
+                    <MudTextField type="text" name="name" Label="Name" @bind-Value="roleDto.Name" Immediate="true" />
+                    <ValidationMessage For="@(() => roleDto.Name)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="description" Label="Description" @bind-Value="roleDto.Description" Immediate="true" />
+                    <ValidationMessage For="@(() => roleDto.Description)" />
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Style="margin-right: 10px;">Update</MudButton>
+                <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+            </MudCardActions>
+        </EditForm>
+    </MudItem>
+</MudGrid>

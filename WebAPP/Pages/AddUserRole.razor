@@ -1,0 +1,34 @@
+﻿@page "/adduserrole"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Add User Role</h3>
+
+<br />
+
+<MudSelect @bind-Value="SelectedUser" Label="Select User" Variant="Variant.Outlined">
+    @foreach (var user in Users)
+    {
+        <MudSelectItem Value="@user">
+            @user.Name
+        </MudSelectItem>
+    }
+</MudSelect>
+
+<br />
+
+<MudSelect @bind-Value="SelectedRole" Label="Select Role" Variant="Variant.Outlined">
+    @foreach (var role in Roles)
+    {
+        <MudSelectItem Value="@role">
+            @role.Name
+        </MudSelectItem>
+    }
+</MudSelect>
+
+<br />
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="AssignRoleToUser" Style="margin-right: 10px;">Assign Role</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Secondary" OnClick="Cancel">Cancel</MudButton>

@@ -1,0 +1,30 @@
+﻿@page "/Login"
+
+<h2 class="title">Login Form</h2>
+
+<MudGrid>
+    <MudItem xs="12" Class="my-4">
+        <EditForm Model="@LoginRequest" OnSubmit="LoginSubmit">
+            <MudCardContent>
+                <div class="control-group" style="padding-bottom:2%;">
+                    <input type="text" class="form-control" @bind="@LoginRequest.Username"
+                           For="@(() => @LoginRequest.Username)" placeholder="User Name" required="required" />
+                </div>
+                <div class="control-group">
+                    <input type="password" class="form-control" @bind="@LoginRequest.Password"
+                           For="@(() => @LoginRequest.Password)" placeholder="Password"
+                           required="required" minlength="6" />
+                </div>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Dark" Class="ml-auto" Style="margin-right:7px;">Login</MudButton>
+            </MudCardActions>
+        </EditForm>
+        <MudItem xs="12" Class="my-4">
+            @if (@LogFaild != null)
+            {
+                <MudAlert Severity="Severity.Error" ContentAlignment="HorizontalAlignment.Center">@LogFaild</MudAlert>
+            }
+        </MudItem>
+    </MudItem>
+</MudGrid>

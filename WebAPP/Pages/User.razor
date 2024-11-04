@@ -1,0 +1,30 @@
+﻿@page "/user"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+
+<MudTable Items="FilteredUsers" Hover="true" Style="margin-bottom: 50px;">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Users</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="float: right;" @onclick="AddUser">Add User</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<UserDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+        <MudTh>Username</MudTh>
+        <MudTh>Password</MudTh>
+        <MudTh>Edit User</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Username">@context.Username</MudTd>
+        <MudTd DataLabel="Password">@context.Password</MudTd>
+        <MudTd Style="padding: 0;">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="@(() => EditUser(@context.Id))">Edit</MudButton>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

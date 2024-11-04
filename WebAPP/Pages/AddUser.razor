@@ -1,0 +1,34 @@
+﻿@page "/adduser"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Add User</h3>
+
+<MudGrid>
+    <MudItem xs="12" Class="my-4">
+        <EditForm Model="@userDto" OnValidSubmit="UserSubmit">
+            <DataAnnotationsValidator />
+            <MudCardContent>
+                <div class="my-2">
+                    <MudTextField type="text" name="name" Label="Name" @bind-Value="userDto.Name" Immediate="true" />
+                    <ValidationMessage For="@(() => userDto.Name)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="username" Label="Username" @bind-Value="userDto.Username" Immediate="true" />
+                    <ValidationMessage For="@(() => userDto.Username)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="password" Label="Password" @bind-Value="userDto.Password" Immediate="true" />
+                    <ValidationMessage For="@(() => userDto.Password)" />
+                </div>
+            </MudCardContent>
+
+            <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Style="margin-right: 10px;">Add</MudButton>
+                <MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>
+            </MudCardActions>
+        </EditForm>
+    </MudItem>
+</MudGrid>

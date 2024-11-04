@@ -1,0 +1,109 @@
+﻿@using System.Text.Json
+@using System.Security.Claims
+@inject AuthenticationStateProvider AuthStateProvider
+@inject NavigationManager NavManager
+
+<nav class="navbar navbar-expand-lg navbar-dark" style="position: sticky;top: 0;left: 0;width: 100%;z-index: 9;background-color:black;color: white">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">WebAPP</a>
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="#">Home</a>
+                </li>
+                <AuthorizeView>
+                    <Authorized>
+                        @if (user != null && (user.IsInRole("Admin")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/employee">Employee</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/role">Roles</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/user">Users</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/userrole">User Role</a>
+                            </li>
+                        }
+                        @if (user.IsInRole("User"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/employee">Employee</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-white" href="/counter">Counter</a>
+                            </li>
+                        }
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+
+            <ul class="navbar-nav d-flex flex-row me-1">
+                <AuthorizeView>
+                    <NotAuthorized>
+                        <li class="nav-item me-3 me-lg-0" style="font-size: 19px;">
+                            <a class="nav-link text-white" href="/Login"><i class="fa fa-user-circle" aria-hidden="true"></i></a>
+                        </li>
+                    </NotAuthorized>
+                    <Authorized>
+                        <li class="nav-item me-3 me-lg-0" style="font-size: 19px;">
+                            <a class="nav-link text-white" href="#" @onclick="Logout"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                        </li>
+                    </Authorized>
+                </AuthorizeView>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+@code {
+    private AuthenticationState authState;
+    private ClaimsPrincipal user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await AuthStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+        AuthStateProvider.AuthenticationStateChanged += OnAuthenticationStateChanged;
+        StateHasChanged();
+    }
+
+    private void OnAuthenticationStateChanged(Task<AuthenticationState> task)
+    {
+        InvokeAsync(async () =>
+        {
+            authState = await task;
+            user = authState.User;
+            StateHasChanged();
+        });
+    }
+
+    private async Task Logout()
+    {
+        await LocalStorage.RemoveItemAsync("authToken");
+        await LocalStorage.RemoveItemAsync("userId");
+        await LocalStorage.RemoveItemAsync("userRole");
+
+        if (AuthStateProvider is CustomAuthStateProvider customAuthStateProvider)
+        {
+            customAuthStateProvider.MarkUserAsLoggedOut();
+        }
+
+        NavManager.NavigateTo("/login");
+
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        AuthStateProvider.AuthenticationStateChanged -= OnAuthenticationStateChanged;
+    }
+}

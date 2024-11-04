@@ -1,0 +1,32 @@
+﻿@page "/edituserrole/{userId:int}"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@inject ISnackbar Snackbar
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Update User Role</h3>
+
+<br />
+
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="6" Style="text-align: center;padding: 25px;">
+        <b>User Name:</b> @userrole.Username
+    </MudItem>
+    <MudItem xs="6" Style="text-align: center;padding: 25px;">
+        <b>User Role:</b> @userrole.RoleName
+    </MudItem>
+</MudGrid>
+
+<MudSelect @bind-Value="SelectedRole" Label="Change Role" Variant="Variant.Outlined">
+    @foreach (var role in Roles)
+    {
+        <MudSelectItem Value="role">
+            @role.Name
+        </MudSelectItem>
+    }
+</MudSelect>
+
+<br />
+
+<MudButton OnClick="AssignRoleToUser" Variant="Variant.Filled" Color="Color.Primary" Style="margin-right: 10px;">Update</MudButton>
+<MudButton Color="Color.Secondary" Variant="Variant.Filled" OnClick="Cancel">Cancel</MudButton>

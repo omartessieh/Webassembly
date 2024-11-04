@@ -1,0 +1,29 @@
+﻿@page "/userrole"
+@using Microsoft.AspNetCore.Authorization
+@using System.ComponentModel.DataAnnotations
+@attribute [Authorize(Roles = "Admin")]
+
+<MudTable Items="FilteredUsers" Hover="true" Style="margin-bottom: 50px;">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Users Role</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
+        <MudSpacer />
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="float: right;" @onclick="AddUserRole">Add User Role</MudButton>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<UserRoleViewDto, object>(x=>x.Username)">Username</MudTableSortLabel></MudTh>
+        <MudTh>RoleName</MudTh>
+        <MudTh>Change Role</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Username">@context.Username</MudTd>
+        <MudTd DataLabel="RoleName">@context.RoleName</MudTd>
+        <MudTd Style="padding: 0;">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" @onclick="@(() => EditUserRole(@context.UserId))">Change Role</MudButton>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>

@@ -45,6 +45,7 @@ namespace WebAPI.Services
                 employee.Company = data.Company;
                 employee.Position = data.Position;
                 employee.BirthDate = data.BirthDate;
+                employee.Salary = data.Salary;
                 await _context.SaveChangesAsync();
             }
             return employee;

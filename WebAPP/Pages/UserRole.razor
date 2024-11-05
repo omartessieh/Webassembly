@@ -12,9 +12,16 @@
         <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="float: right;" @onclick="AddUserRole">Add User Role</MudButton>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<UserRoleViewDto, object>(x=>x.Username)">Username</MudTableSortLabel></MudTh>
-        <MudTh>RoleName</MudTh>
-        <MudTh>Change Role</MudTh>
+        @if (!UsersRole.Any())
+        {
+            <MudTh>No data available</MudTh>
+        }
+        else
+        {
+            <MudTh><MudTableSortLabel SortBy="new Func<UserRoleViewDto, object>(x=>x.Username)">Username</MudTableSortLabel></MudTh>
+            <MudTh>RoleName</MudTh>
+            <MudTh>Change Role</MudTh>
+        }
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Username">@context.Username</MudTd>

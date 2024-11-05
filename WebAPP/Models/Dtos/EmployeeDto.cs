@@ -18,5 +18,8 @@ namespace WebAPP.Models.Dtos
 
         [Required(ErrorMessage = "Birth Date is required")]
         public DateTime? BirthDate { get; set; }
+
+        [Required(ErrorMessage = "Salary is required")]
+        public double Salary { get; set; }
     }
 }

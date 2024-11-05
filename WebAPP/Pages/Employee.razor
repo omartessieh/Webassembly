@@ -14,14 +14,22 @@
         }
     </ToolBarContent>
     <HeaderContent>
-        <MudTh><MudTableSortLabel SortBy="new Func<EmployeeDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
-        <MudTh>Company</MudTh>
-        <MudTh>Position</MudTh>
-        <MudTh>BirthDate</MudTh>
-        @if (user?.IsInRole("Admin") == true)
+        @if (!Employees.Any())
         {
-            <MudTh>Edit Employee</MudTh>
-            <MudTh>Delete Employee</MudTh>
+            <MudTh>No data available</MudTh>
+        }
+        else
+        {
+            <MudTh><MudTableSortLabel SortBy="new Func<EmployeeDto, object>(x=>x.Name)">Name</MudTableSortLabel></MudTh>
+            <MudTh>Company</MudTh>
+            <MudTh>Position</MudTh>
+            <MudTh>BirthDate</MudTh>
+            <MudTh>Salary</MudTh>
+            @if (user?.IsInRole("Admin") == true)
+            {
+                <MudTh>Edit Employee</MudTh>
+                <MudTh>Delete Employee</MudTh>
+            }
         }
     </HeaderContent>
     <RowTemplate>
@@ -29,6 +37,7 @@
         <MudTd DataLabel="Company">@context.Company</MudTd>
         <MudTd DataLabel="Position">@context.Position</MudTd>
         <MudTd DataLabel="BirthDate">@context.BirthDate?.ToString("dd-MM-yyyy")</MudTd>
+        <MudTd DataLabel="Salary">@context.Salary</MudTd>
         @if (user?.IsInRole("Admin") == true)
         {
             <MudTd Style="padding: 0;">

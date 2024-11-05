@@ -19,8 +19,12 @@
                     <ValidationMessage For="@(() => employeeDto.Company)" />
                 </div>
                 <div class="my-2">
-                    <MudTextField type="text" name="position" Label="Position" ShowToolbar="false" @bind-Value="employeeDto.Position" Immediate="true" />
+                    <MudTextField type="text" name="position" Label="Position" @bind-Value="employeeDto.Position" Immediate="true" />
                     <ValidationMessage For="@(() => employeeDto.Position)" />
+                </div>
+                <div class="my-2">
+                    <MudTextField type="text" name="salary" Label="Salary" @bind-Value="employeeDto.Salary" Immediate="true" />
+                    <ValidationMessage For="@(() => employeeDto.Salary)" />
                 </div>
                 <div class="my-2">
                     <MudDatePicker Label="Date of Birth" @bind-Date="employeeDto.BirthDate" DateFormat="yyyy-MM-dd" ShowToolbar="false"></MudDatePicker>

@@ -3,16 +3,25 @@
 @using System.ComponentModel.DataAnnotations
 @attribute [Authorize(Roles = "Admin")]
 
-<MudTable Items="@Roles" Hover="true" Style="margin-bottom: 50px;">
+<MudTable Items="@FilteredRoles" Hover="true" Style="margin-bottom: 50px;">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Roles</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Immediate="true" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
         <MudSpacer />
         <MudButton Color="Color.Primary" Variant="Variant.Filled" Style="float: right;" @onclick="AddRole">Add Role</MudButton>
     </ToolBarContent>
     <HeaderContent>
-        <MudTh>Name</MudTh>
-        <MudTh>Description</MudTh>
-        <MudTh>Edit Role</MudTh>
+        @if (!Roles.Any())
+        {
+            <MudTh>No data available</MudTh>
+        }
+        else
+        {
+            <MudTh>Name</MudTh>
+            <MudTh>Description</MudTh>
+            <MudTh>Edit Role</MudTh>
+        }
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Name">@context.Name</MudTd>

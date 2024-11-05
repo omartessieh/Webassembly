@@ -1,0 +1,115 @@
+﻿@page "/charts"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Admin")]
+
+<h3>Employees Charts</h3>
+
+<br />
+
+<MudGrid Style="padding-bottom:30px;">
+    <MudItem xs="12" sm="6" Style="display: flex; justify-content: center; align-items: center;">
+        <canvas id="myChartbar" style="max-width:500px;max-height:500px;"></canvas>
+    </MudItem>
+    <MudItem xs="12" sm="6" Style="display: flex; justify-content: center; align-items: center;">
+        <canvas id="myChartpie" style="max-width:300px;max-height:300px;"></canvas>
+    </MudItem>
+    <MudItem xs="12" sm="6" Style="display: flex; justify-content: center; align-items: center;">
+        <canvas id="myChartline" style="max-width:500px;max-height:500px;"></canvas>
+    </MudItem>
+    <MudItem xs="12" sm="6" Style="display: flex; justify-content: center; align-items: center;">
+        <canvas id="myChartpolararea" style="max-width:300px;max-height:300px;"></canvas>
+    </MudItem>
+</MudGrid>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    // Bar chart
+    function renderChartbar(labels, data) {
+        const ctx = document.getElementById('myChartbar').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Sales',
+                    data: data,
+                    borderWidth: 1,
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    borderColor: 'rgba(75, 192, 192, 1)'
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    // Pie chart
+    function renderChartpie(labels, data) {
+        const ctx = document.getElementById('myChartpie').getContext('2d');
+        new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Sales',
+                    data: data,
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)', 'rgb(255, 159, 64)'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'top' }, tooltip: { enabled: true } }
+            }
+        });
+    }
+
+    // Line chart
+    function renderChartline(labels, data) {
+        const ctx = document.getElementById('myChartline').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Sales',
+                    data: data,
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+    }
+
+    // Polar Area chart
+    function renderChartpolararea(labels, data) {
+        const ctx = document.getElementById('myChartpolararea').getContext('2d');
+        new Chart(ctx, {
+            type: 'polarArea',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Sales',
+                    data: data,
+                    backgroundColor: ['rgb(255, 99, 132)', 'rgb(54, 162, 235)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(153, 102, 255)', 'rgb(255, 159, 64)'],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'top' }, tooltip: { enabled: true } }
+            }
+        });
+    }
+</script>

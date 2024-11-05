@@ -22,6 +22,7 @@ namespace WebAPP.Pages
 
         private ClaimsPrincipal user;
         private AuthenticationState authState;
+        private string searchString = "";
 
         protected override async Task OnInitializedAsync()
         {
@@ -36,6 +37,15 @@ namespace WebAPP.Pages
 
             authState = await AuthStateProvider.GetAuthenticationStateAsync();
             user = authState.User;
+        }
+
+        private IEnumerable<RoleDto> FilteredRoles => string.IsNullOrWhiteSpace(searchString)
+        ? Roles
+        : Roles.Where(e => e.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
+
+        private void UpdateFilteredRoles(ChangeEventArgs e)
+        {
+            searchString = e.Value?.ToString();
         }
 
         private async Task AddRole()
